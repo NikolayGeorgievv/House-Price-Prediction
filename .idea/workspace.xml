@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce3091bc-94fb-4df8-a563-72c6d092ed4c" name="Changes" comment="some data processing">
+    <list default="true" id="ce3091bc-94fb-4df8-a563-72c6d092ed4c" name="Changes" comment="model training.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data-processing/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data-processing/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,12 +141,38 @@
       <option name="project" value="LOCAL" />
       <updated>1722803638304</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="more data processing">
+      <option name="closed" value="true" />
+      <created>1722855615837</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1722855615837</updated>
+    </task>
+    <task id="LOCAL-00010" summary="more data processing">
+      <option name="closed" value="true" />
+      <created>1722868611589</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1722868611589</updated>
+    </task>
+    <task id="LOCAL-00011" summary="model training.">
+      <option name="closed" value="true" />
+      <created>1722870589729</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1722870589729</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="some data processing" />
-    <option name="LAST_COMMIT_MESSAGE" value="some data processing" />
+    <MESSAGE value="more data processing" />
+    <MESSAGE value="model training." />
+    <option name="LAST_COMMIT_MESSAGE" value="model training." />
   </component>
 </project>

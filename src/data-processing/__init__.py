@@ -8,7 +8,9 @@ from sklearn.linear_model import Lasso
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 import matplotlib
+import pickle
 
+import json
 df1 = pd.read_csv('../../data/Bengaluru_House_Data.csv')
 
 # Removing some of the columns which are not required
@@ -142,7 +144,7 @@ def find_best_model_using_gridsearchcv(X, y):
     return pd.DataFrame(scores, columns=['model', 'best_score', 'best_params'])
 
 
-print(find_best_model_using_gridsearchcv(X, y))
+# print(find_best_model_using_gridsearchcv(X, y))
 
 
 # Function to predict the price of the house
@@ -159,8 +161,16 @@ def predict_price(location, sqft, bath, bhk):
     return lr_clf.predict([x])[0]
 
 
+# Export the model to a file
+# with open('banglore_home_prices_model.pickle', 'wb') as f:
+#     pickle.dump(lr_clf, f)
 
-
+# Export data into json file
+# columns = {
+#     'data_columns': [col.lower() for col in X.columns]
+# }
+# with open('columns.json', 'w') as f:
+#     f.write(json.dumps(columns))
 
 
 
