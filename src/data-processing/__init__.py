@@ -35,8 +35,11 @@ def convert_sqft_to_num(x):
 df3[~df3['total_sqft'].apply(is_float)]
 df4 = df3.copy()
 df4['total_sqft'] = df4['total_sqft'].apply(convert_sqft_to_num)
-print(df4.head())
 
-print(df4['total_sqft'].unique())
+df5 = df4.copy()
 
-#
+df5['price_per_sqft'] = df5['price']*100000/df5['total_sqft']
+df5.location = df5.location.apply(lambda x: x.strip())
+location_stats = df5.groupby('location')['location'].agg('count').sort_values(ascending=False)
+location_stats_less_than_10 = location_stats[location_stats <= 10]
+df5.location = df5.location.apply(lambda x: 'other' if x in location_stats_less_than_10 else x)
