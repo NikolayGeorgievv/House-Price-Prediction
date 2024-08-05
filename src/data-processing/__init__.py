@@ -1,5 +1,11 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 import matplotlib
 
@@ -9,7 +15,7 @@ df1 = pd.read_csv('../../data/Bengaluru_House_Data.csv')
 df2 = df1.drop(['area_type', 'society', 'balcony', 'availability'], axis=1)
 
 # Removing the rows which have null values
-df3 = df2.dropna()
+df3 = df2.dropna().copy()
 
 # Making sure the values in the size column are consistent
 df3['BHK'] = df3['size'].apply(lambda x: int(x.split(' ')[0]))
@@ -80,5 +86,85 @@ def remove_bhk_outliers(df):
 
 
 df8 = remove_bhk_outliers(df7)
-df9 = df8[df8.bath < df8.bhk + 2]
+df9 = df8[df8.bath < df8.BHK + 2]
 df10 = df9.drop(['size', 'price_per_sqft'], axis=1)
+
+dummies = pd.get_dummies(df10.location)
+df11 = pd.concat([df10, dummies.drop('other', axis=1)], axis=1)
+df12 = df11.drop('location', axis=1)
+
+# Splitting the data into training and testing data
+
+X = df12.drop('price', axis=1)
+y = df12.price
+
+X_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
+
+lr_clf = LinearRegression()
+lr_clf.fit(X_train, y_train)
+cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
+
+cross_val_score(LinearRegression(), X, y, cv=cv)
+
+print(lr_clf.score(x_test, y_test))
+
+
+# Using GridSearchCV to find the best model
+def find_best_model_using_gridsearchcv(X, y):
+    algos = {
+        'linear_regression': {
+            'model': LinearRegression(),
+            'params': {
+                'fit_intercept': [True, False],
+                'positive': [True, False]
+            }
+        },
+        'lasso': {
+            'model': Lasso(),
+            'params': {
+                'alpha': [1, 2],
+                'selection': ['random', 'cyclic']
+            }
+        }
+    }
+
+    scores = []
+    cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
+    for algo_name, config in algos.items():
+        gs = GridSearchCV(config['model'], config['params'], cv=cv, return_train_score=False)
+        gs.fit(X, y)
+        scores.append({
+            'model': algo_name,
+            'best_score': gs.best_score_,
+            'best_params': gs.best_params_
+        })
+
+    return pd.DataFrame(scores, columns=['model', 'best_score', 'best_params'])
+
+
+print(find_best_model_using_gridsearchcv(X, y))
+
+
+# Function to predict the price of the house
+def predict_price(location, sqft, bath, bhk):
+    loc_index = np.where(X.columns == location)[0][0]
+
+    x = np.zeros(len(X.columns))
+    x[0] = sqft
+    x[1] = bath
+    x[2] = bhk
+    if loc_index >= 0:
+        x[loc_index] = 1
+
+    return lr_clf.predict([x])[0]
+
+
+
+
+
+
+
+
+
+
+
