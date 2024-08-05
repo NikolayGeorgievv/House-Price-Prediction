@@ -37,4 +37,6 @@ df4 = df3.copy()
 df4['total_sqft'] = df4['total_sqft'].apply(convert_sqft_to_num)
 print(df4.head())
 
+print(df4['total_sqft'].unique())
+
 #
